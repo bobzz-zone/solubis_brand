@@ -1,0 +1,8 @@
+{
+    "css/styling.min.css": [
+        "public/css/custom.css"
+    ],
+    "js/styling.min.js": [
+        "public/js/conf.js"
+    ]
+}

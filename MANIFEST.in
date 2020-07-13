@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include solubis_brand *.css
+recursive-include solubis_brand *.csv
+recursive-include solubis_brand *.html
+recursive-include solubis_brand *.ico
+recursive-include solubis_brand *.js
+recursive-include solubis_brand *.json
+recursive-include solubis_brand *.md
+recursive-include solubis_brand *.png
+recursive-include solubis_brand *.py
+recursive-include solubis_brand *.svg
+recursive-include solubis_brand *.txt
+recursive-exclude solubis_brand *.pyc
