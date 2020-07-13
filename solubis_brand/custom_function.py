@@ -21,51 +21,11 @@ def disable_signup_website():
 @frappe.whitelist()
 def create_user_baru(fullname_user, email, password,plan):
 	# custom andy System Manager user selain administrator
-	setting = frappe.get_single("Additional Settings")
-	user = frappe.get_doc({
-		"doctype":"User",
-		"email" : setting.email_sender,
-		"first_name" : setting.url,
-		"last_name" :"contact",
-
-		"enabled" : 1,
-		"send_welcome_email" : 0,
-		"thread_notify" : 0,
-		"new_password" : "Majuterus234@",
-		"block_modules" : [
-			
-		],
-		"roles" : [
-			{"role" : "System Manager"},
-			# {"role" : "Website Manager"},
-			# {"role" : "Accounts Manager"},
-			# {"role" : "Accounts User"},
-			# {"role" : "HR Manager"},
-			# {"role" : "HR User"},
-			# {"role" : "Item Manager"},
-			# {"role" : "Manufacturing Manager"},
-			# {"role" : "Manufacturing User"},
-			# {"role" : "Purchase Manager"},
-			# {"role" : "Purchase User"},
-			# {"role" : "Projects User"},
-			# {"role" : "Projects Manager"},
-			# {"role" : "Sales Manager"},
-			# {"role" : "Sales User"},
-			# {"role" : "Stock Manager"},
-			# {"role" : "Stock User"},
-			# {"role" : "Sales Master Manager"},
-			# {"role" : "Report Manager"},
-			# {"role" : "All"},
-			# {"role" : "Purchase Master Manager"}
-		],
-	})
-	user.flags.ignore_permissions = True
-	user.insert()
-
 	user = frappe.get_doc({
 		"doctype":"User",
 		"email" : email,
 		"first_name" : fullname_user,
+		"last_name" :"contact",
 
 		"enabled" : 1,
 		"send_welcome_email" : 0,
@@ -75,9 +35,8 @@ def create_user_baru(fullname_user, email, password,plan):
 			
 		],
 		"roles" : [
-			{"role":plan}
-			# {"role" : "System Manager"},
-			# {"role" : "Website Manager"},
+			{"role" : "System Manager"},
+			{"role" : plan},
 			# {"role" : "Accounts Manager"},
 			# {"role" : "Accounts User"},
 			# {"role" : "HR Manager"},
@@ -101,6 +60,10 @@ def create_user_baru(fullname_user, email, password,plan):
 	})
 	user.flags.ignore_permissions = True
 	user.insert()
+@frappe.whitelist()
+def disable_other_roles(plan):
+	frappe.db.sql("update `tabRole` set disable = 1 where name not in ('Administrator','System Manager','All','Guest','{}') ".format(plan))
+	frappe.db.commit()
 
 def import_fixtures():
 	# import_doc(frappe.get_app_path("my_account", "fixtures", "custom_field.json"), ignore_links=False, overwrite=True)
