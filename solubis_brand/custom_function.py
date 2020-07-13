@@ -62,7 +62,7 @@ def create_user_baru(fullname_user, email, password,plan):
 	user.insert()
 @frappe.whitelist()
 def disable_other_roles(plan):
-	frappe.db.sql("update `tabRole` set disable = 1 where name not in ('Administrator','System Manager','All','Guest','{}') ".format(plan))
+	frappe.db.sql("update `tabRole` set disabled = 1 where name not in ('Administrator','System Manager','All','Guest','{}') ".format(plan))
 	frappe.db.commit()
 
 def import_fixtures():
