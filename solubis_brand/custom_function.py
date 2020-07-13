@@ -25,7 +25,6 @@ def create_user_baru(fullname_user, email, password,plan):
 		"doctype":"User",
 		"email" : email,
 		"first_name" : fullname_user,
-		"last_name" :"contact",
 
 		"enabled" : 1,
 		"send_welcome_email" : 0,
