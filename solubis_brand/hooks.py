@@ -86,14 +86,14 @@ app_include_js = "assets/js/styling.min.js"
 
 doc_events = {
 	"User": {
-		"validate": "solubis_brand.custom_function.validate_user_quota"
+		"validate": "solubis_brand.custom_function.validate_user_quota",
 		"before_insert": "solubis_brand.custom_function.set_block_module"
 		# "on_submit" : my_account.doctype.sync_server_settings.create_new_user
 	}
 }
-# on_session_creation =[
-# 	"solubis_brand.custom_function.login_block"
-# ]
+on_session_creation =[
+	"solubis_brand.custom_function.login_block"
+]
 # Scheduled Tasks
 # ---------------
 
