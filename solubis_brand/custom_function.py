@@ -32,7 +32,17 @@ def create_user_baru(fullname_user, email, password,plan):
 		"thread_notify" : 0,
 		"new_password" : password,
 		"block_modules" : [
-			
+			{"module" : "Integrations"},
+			{"module" : "Social"},
+			{"module" : "Assets"},
+			{"module" : "CRM"},
+			{"module" : "HR"},
+			{"module" : "Marketplace"},
+			{"module" : "Leaderboard"},
+			{"module" : "Projects"},
+			{"module" : "Support"},
+			{"module" : "Quality Management"},
+			{"module" : "Help"}
 		],
 		"roles" : [
 			{"role" : "System Manager"},
