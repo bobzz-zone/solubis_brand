@@ -91,9 +91,9 @@ doc_events = {
 		# "on_submit" : my_account.doctype.sync_server_settings.create_new_user
 	}
 }
-on_session_creation =[
-	"solubis_brand.custom_function.login_block"
-]
+# on_session_creation =[
+# 	"solubis_brand.custom_function.login_block"
+# ]
 # Scheduled Tasks
 # ---------------
 
