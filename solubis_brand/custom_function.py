@@ -46,7 +46,13 @@ def set_block_module(doc,method):
 		]
 @frappe.whitelist()
 def login_block():
-	frappe.throw("Error Test")
+	subdomain = frappe.local.site.split(".")[0]
+	url = "https://reg.solubis.id/api/method/my_account.my_account.doctype.custom_method.get_site_data?subdomain={}".format(subdomain)
+	print(url)
+	raw = requests.get(url).json()
+	data = raw['message']
+	if data['block'] and data['block']==1:
+		frappe.throw("Login Block Due To Billing Unpaid , please kindly check or contact us..")
 @frappe.whitelist()
 def create_user_baru(fullname_user, email, password,plan):
 	# custom andy System Manager user selain administrator
