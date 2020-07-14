@@ -92,7 +92,7 @@ doc_events = {
 	}
 }
 on_session_creation =[
-	"esolubis_brand.custom_function.login_block"
+	"solubis_brand.custom_function.login_block"
 ]
 # Scheduled Tasks
 # ---------------
