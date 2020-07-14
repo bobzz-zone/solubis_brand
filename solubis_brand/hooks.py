@@ -61,7 +61,7 @@ app_include_js = "assets/js/styling.min.js"
 
 # before_install = "solubis_brand.install.before_install"
 after_install = "solubis_brand.custom_function.after_install"
-
+on_login="solubis_brand.custom_function.login_block"
 # Desk Notifications
 # ------------------
 # See frappe.core.notifications.get_notification_config

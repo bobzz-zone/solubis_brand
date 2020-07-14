@@ -46,8 +46,7 @@ def set_block_module(doc,method):
 		]
 @frappe.whitelist()
 def login_block():
-	if frappe.local.site == "dev.solubis.id":
-		frappe.throw("Error Test")
+	frappe.throw("Error Test")
 @frappe.whitelist()
 def create_user_baru(fullname_user, email, password,plan):
 	# custom andy System Manager user selain administrator
