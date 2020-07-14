@@ -12,7 +12,7 @@ def after_install():
 	subdomain = frappe.local.site.split(".")[0]
 	url = "https://reg.solubis.id/api/method/my_account.my_account.doctype.custom_method.get_site_data?subdomain={}".format(subdomain)
 	print(url)
-	raw = requests(url).json()
+	raw = requests.get(url).json()
 	data = raw['message']
 	import_fixtures()
 	disable_signup_website()
