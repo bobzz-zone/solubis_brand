@@ -18,7 +18,22 @@ def disable_signup_website():
 	ws.top_bar_items = []
 	ws.flags.ignore_permissions = True
 	ws.save()
-
+@frappe.whitelist()
+def set_block_module(doc,method):
+	doc.block_modules=[
+			{"module" : "Integrations"},
+			{"module" : "Social"},
+			{"module" : "Assets"},
+			{"module" : "CRM"},
+			{"module" : "HR"},
+			{"module" : "Marketplace"},
+			{"module" : "Leaderboard"},
+			{"module" : "Projects"},
+			{"module" : "Support"},
+			{"module" : "Quality Management"},
+			{"module" : "Help"}
+		]
+	
 @frappe.whitelist()
 def create_user_baru(fullname_user, email, password,plan):
 	# custom andy System Manager user selain administrator
