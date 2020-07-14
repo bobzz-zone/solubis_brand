@@ -19,6 +19,7 @@ def after_install():
 	disable_other_roles(data['active_plan'])
 	create_user_baru(data['fullname'], data['user'], data['password'],data['active_plan'])
 	frappe.db.commit()
+	requests.get("https://reg.solubis.id/api/method/my_account.custom_dns_api.send_mail_site_created?subdomuser={}&fullname={}&newsitename={}".format(data['user'],data['fullname'],frappe.local.site))
 
 
 @frappe.whitelist()
