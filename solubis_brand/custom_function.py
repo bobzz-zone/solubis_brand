@@ -5,14 +5,21 @@ from frappe.frappeclient import FrappeClient
 from frappe.core.doctype.data_import.data_import import import_doc, export_json
 import subprocess
 from frappe.utils import cint, flt
+import requests
+import json
+
+def after_install():
+	subdomain = frappe.local.site.split(".")[0]
+	data = requests("https://reg.solubis.id/api/method/my_account.my_account.doctype.custom_method.get_site_data?subdomain={}".format(subdomain)).json()['message']
+	import_fixtures()
+	disable_signup_website()
+	disable_other_roles(data['active_plan'])
+	create_user_baru(data['fullname'], data['user'], data['password'],data['active_plan'])
+	frappe.db.commit()
+
+
 @frappe.whitelist()
 def disable_signup_website():
-	# role_baru = frappe.get_doc({
-	# 	"doctype":"Role",
-	# 	"role_name": "BiSetup Wizard"
-	# })
-	# role_baru.flags.ignore_permissions = True
-	# role_baru.insert()
 	ws = frappe.get_single("Website Settings")
 	ws.disable_signup = 1
 	ws.top_bar_items = []
