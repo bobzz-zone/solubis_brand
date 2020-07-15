@@ -11,7 +11,6 @@ import json
 def after_install():
 	subdomain = frappe.local.site.split(".")[0]
 	url = "https://reg.solubis.id/api/method/my_account.my_account.doctype.custom_method.get_site_data?subdomain={}".format(subdomain)
-	print(url)
 	raw = requests.get(url).json()
 	data = raw['message']
 	import_fixtures()
@@ -44,15 +43,18 @@ def set_block_module(doc,method):
 			{"module" : "Quality Management"},
 			{"module" : "Help"}
 		]
+
+
 @frappe.whitelist()
 def login_block():
 	subdomain = frappe.local.site.split(".")[0]
 	url = "https://reg.solubis.id/api/method/my_account.my_account.doctype.custom_method.get_site_data?subdomain={}".format(subdomain)
-	print(url)
 	raw = requests.get(url).json()
 	data = raw['message']
 	if data['block'] and data['block']==1:
 		frappe.throw("Login Block Due To Billing Unpaid , please kindly check or contact us..")
+
+
 @frappe.whitelist()
 def create_user_baru(fullname_user, email, password,plan):
 	# custom andy System Manager user selain administrator
@@ -76,7 +78,8 @@ def create_user_baru(fullname_user, email, password,plan):
 			{"module" : "Projects"},
 			{"module" : "Support"},
 			{"module" : "Quality Management"},
-			{"module" : "Help"}
+			{"module" : "Help"},
+			{"module" : "Website"}
 		],
 		"roles" : [
 			{"role" : "System Manager"},
@@ -129,8 +132,11 @@ def validate_user_quota(doc,method):
 		subdomain = frappe.local.site.split(".")[0]
 	except:
 		frappe.throw("Domain not found")
-	quota = 0
-	quota = subprocess.check_output("""bench --site reg.solubis.id execute my_account.my_account.doctype.api_data.get_current_quota --args "['{}']" """.format(str(subdomain)),shell=True,universal_newlines=True)
+	subdomain = frappe.local.site.split(".")[0]
+	url = "https://reg.solubis.id/api/method/my_account.my_account.doctype.custom_method.get_site_data?subdomain={}".format(subdomain)
+	raw = requests.get(url).json()
+	data = raw['message']
+	quota = flt(data['quota'])
 	enabled_users = get_enabled_users()
 		# print("enabled = {}".format(enabled_users))
 	# print("quota = {}".format(quota))

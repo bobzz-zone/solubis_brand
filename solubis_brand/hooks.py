@@ -26,7 +26,8 @@ app_include_js = "assets/js/styling.min.js"
 # include js, css files in header of web template
 # web_include_css = "/assets/solubis_brand/css/solubis_brand.css"
 # web_include_js = "/assets/solubis_brand/js/solubis_brand.js"
-
+setup_wizard_requires = "assets/solubis_brand/js/setup_wizard.js"
+#setup_wizard_stages = "solubis_brand.setup_wizard.get_setup_stages"
 # include js in page
 # page_js = {"page" : "public/js/file.js"}
 
@@ -91,6 +92,7 @@ doc_events = {
 		# "on_submit" : my_account.doctype.sync_server_settings.create_new_user
 	}
 }
+
 # on_session_creation =[
 # 	"solubis_brand.custom_function.login_block"
 # ]
