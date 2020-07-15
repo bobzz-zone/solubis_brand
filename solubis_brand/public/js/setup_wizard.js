@@ -5,7 +5,7 @@ frappe.setup.on("before_load", function () {
 	frappe.setup.remove_slide('user');
 	//erpnext.setup.slides_settings.map(frappe.setup.add_slide);
 });
-frappe.setup.on("after_load", function () {
+frappe.setup.on("on_load", function () {
 	frappe.setup.domains="Retail"
 	
 });
