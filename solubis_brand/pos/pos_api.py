@@ -106,9 +106,7 @@ def get_default_warehouse(warehouse=""):
 
 def get_default_price_list( customer=""):
 	default_price_list = frappe.get_value("Selling Settings","Selling Settings","selling_price_list")
-	if price_list:
-		return price_list
-	elif user:
+	if user:
 		customer = frappe.get_all("Customer", fields= "*", filters=[["name","=",customer]])
 		if len(customer) > 0:
 			if customer[0]["default_price_list"]:
