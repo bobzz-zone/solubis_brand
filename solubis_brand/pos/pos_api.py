@@ -4,10 +4,13 @@ from frappe import _
 import json
 import frappe
 from erpnext.stock.get_item_details import get_item_details
+from frappe.utils import cint, flt
 class pos_api(Document):
 	pass
 @frappe.whitelist()
-def get_item_list(customer,warehouse,keyword="%",item_group="All",page=0,limit=20):
+def get_item_list(customer,warehouse,keyword="%",item_group="All",page=1,limit=20):
+	page=cint(page)
+	limit=cint(limit)
 	list_item = frappe.get_all("Item",fields=["item_code","item_name","item_group","brand","description","image","has_variants"],filters={"variant_of":None},limit_start=(page-1)*limit,limit_page_length=limit)
 	if len(list_item)>0:
 		result=[]
