@@ -7,7 +7,7 @@ from erpnext.stock.get_item_details import get_item_details
 class pos_api(Document):
 	pass
 @frappe.whitelist()
-def get_item_list(keyword="%",item_group="All",customer,warehouse,page=0,limit=20):
+def get_item_list(customer,warehouse,keyword="%",item_group="All",page=0,limit=20):
 	list_item = frappe.get_all("Item",fields=["item_code","item_name","item_group","brand","description","image","has_variants"],filters={"variant_of":None},limit_start=(page-1)*limit,limit_page_length=limit)
 	if len(list_item)>0:
 		result=[]
@@ -20,9 +20,12 @@ def get_item_list(keyword="%",item_group="All",customer,warehouse,page=0,limit=2
 				doc_item = row))
 	else:
 		return {"Error":"Variant Not Found"}
-
+@frappe.whitelist()
 def get_item_by_barcode(barcode,customer,warehouse):
 	pass
+@frappe.whitelist()
+def test():
+	print("test")
 
 @frappe.whitelist()
 def get_item_variant(item,customer,warehouse):
@@ -41,7 +44,7 @@ def get_item_variant(item,customer,warehouse):
 
 @frappe.whitelist()
 def get_pos_profile(user):
-	profile=frappe.db.sql("""select parent from `POS Profile User` where default=1 and user="{}" """.format(user),as_list=1)
+	profile=frappe.db.sql("""select parent from `tabPOS Profile User` where `default`=1 and user="{}" """.format(user),as_list=1)
 	if len(profile)>0:
 		return frappe.get_doc("POS Profile",profile[0][0]).as_json()
 	else:

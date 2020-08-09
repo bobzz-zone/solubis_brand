@@ -30,7 +30,8 @@ def disable_signup_website():
 	ws.save()
 @frappe.whitelist()
 def set_block_module(doc,method):
-	doc.block_modules=[
+	if doc.name:
+		doc.block_modules=[
 			{"module" : "Integrations"},
 			{"module" : "Social"},
 			{"module" : "Assets"},
