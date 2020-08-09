@@ -12,10 +12,10 @@ def get_item_list(customer,warehouse,keyword="%",item_group="All",page=1,limit=2
 	page=cint(page)
 	limit=cint(limit)
 	keyword="%{}%".format(keyword)
-	filters={"variant_of":"","is_sales_item":1,"item_code":["like":keyword],"item_name":["like":keyword],"description":["like":keyword]}
+	filters={"variant_of":"","is_sales_item":1}
 	if item_group and item_group!="All":
 		filters["item_group"]=item_group
-	list_item = frappe.get_all("Item",fields=["item_code","item_name","item_group","brand","description","image","stock_uom","has_variants"],filters=filters,limit_start=(page-1)*limit,limit_page_length=limit)
+	list_item = frappe.get_all("Item",fields=["item_code","item_name","item_group","brand","description","image","stock_uom","has_variants"],filters=filters,or_filters={"item_code":["like",keyword],"item_name":["like",keyword],"description":["like",keyword]},limit_start=(page-1)*limit,limit_page_length=limit)
 	if len(list_item)>0:
 		result=[]
 		today = frappe.utils.today()
