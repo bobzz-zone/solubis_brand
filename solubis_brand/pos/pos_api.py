@@ -11,7 +11,11 @@ class pos_api(Document):
 def get_item_list(customer,warehouse,keyword="%",item_group="All",page=1,limit=20):
 	page=cint(page)
 	limit=cint(limit)
-	list_item = frappe.get_all("Item",fields=["item_code","item_name","item_group","brand","description","image","has_variants"],filters={"variant_of":None},limit_start=(page-1)*limit,limit_page_length=limit)
+	keyword="%{}%".format(keyword)
+	filters={"variant_of":"","is_sales_item":1,"item_code":["like":keyword],"item_name":["like":keyword],"description":["like":keyword]}
+	if item_group and item_group!="All":
+		filters["item_group"]=item_group
+	list_item = frappe.get_all("Item",fields=["item_code","item_name","item_group","brand","description","image","stock_uom","has_variants"],filters=filters,limit_start=(page-1)*limit,limit_page_length=limit)
 	if len(list_item)>0:
 		result=[]
 		today = frappe.utils.today()
@@ -22,7 +26,7 @@ def get_item_list(customer,warehouse,keyword="%",item_group="All",page=1,limit=2
 				transaction_date = today,
 				doc_item = row))
 	else:
-		return {"Error":"Variant Not Found"}
+		return {"Error":"No Item Found"}
 @frappe.whitelist()
 def get_item_by_barcode(barcode,customer,warehouse):
 	pass
@@ -32,7 +36,7 @@ def test():
 
 @frappe.whitelist()
 def get_item_variant(item,customer,warehouse):
-	list_item = frappe.get_all("Item",fields=["item_code","item_name","item_group","brand","description","image","has_variants"],filters={"variant_of":item})
+	list_item = frappe.get_all("Item",fields=["item_code","item_name","item_group","brand","description","image","stock_uom","attributes"],filters={"variant_of":item,"is_sales_item":1})
 	if len(list_item)>0:
 		result=[]
 		today = frappe.utils.today()
