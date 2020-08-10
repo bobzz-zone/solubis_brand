@@ -5,7 +5,7 @@ import json
 import frappe
 from frappe.utils.password import get_decrypted_password
 from frappe.utils.password import check_password
-
+from frappe.core.doctype.user.user import generate_keys
 @frappe.whitelist(allow_guest=True)
 def validate_token(token):
 	token = validate_token(post["token"])
@@ -29,16 +29,13 @@ def create_or_update_secret_key(user):
 				token_string = "token " + str(user_doc.api_key)+":"+str(api_secret_string)
 				return {"data":1, "description" : token_string, "user" : user_doc}
 		else:
-			from frappe.core.doctype.user.user import generate_keys
 			frappe.set_user("Administrator")
 			secret = generate_keys(user)
 			user_doc = frappe.get_doc("User",user)
 			token_string = "token " + str(user_doc.api_key)+":"+str(secret["api_secret"]) 
-			return {"data":1, "description" : token_string}
+			return {"data":1, "description" : token_string, "user" : user_doc}
 	
 	frappe.throw(_("User not found. Please check your data :)"))
-
-
 
 def validate_token(token):
 	if "token " in token and ":" in token:
