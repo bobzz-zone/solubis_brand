@@ -8,11 +8,11 @@ from frappe.utils import cint, flt
 class pos_api(Document):
 	pass
 @frappe.whitelist()
-def get_item_list(customer,warehouse,keyword="%",item_group="All",page=1,limit=20):
+def get_item_list(customer="Karya Jaya, CV.",warehouse="Stores - T",keyword="%",item_group="All",page=1,limit=20):
 	page=cint(page)
 	limit=cint(limit)
 	keyword="%{}%".format(keyword)
-	filters={"variant_of":"","is_sales_item":1}
+	filters={"variant_of" : '' ,"is_sales_item":1}
 	if item_group and item_group!="All":
 		filters["item_group"]=item_group
 	list_item = frappe.get_all("Item",fields=["item_code","item_name","item_group","brand","description","image","stock_uom","has_variants"],filters=filters,or_filters={"item_code":["like",keyword],"item_name":["like",keyword],"description":["like",keyword]},limit_start=(page-1)*limit,limit_page_length=limit)
@@ -25,6 +25,7 @@ def get_item_list(customer,warehouse,keyword="%",item_group="All",page=1,limit=2
 				customer = customer,
 				transaction_date = today,
 				doc_item = row))
+		return result
 	else:
 		return {"Error":"No Item Found"}
 @frappe.whitelist()
@@ -36,16 +37,18 @@ def test():
 
 @frappe.whitelist()
 def get_item_variant(item,customer,warehouse):
-	list_item = frappe.get_all("Item",fields=["item_code","item_name","item_group","brand","description","image","stock_uom","attributes"],filters={"variant_of":item,"is_sales_item":1})
+	list_item = frappe.get_all("Item",fields=["item_code","item_name","item_group","brand","description","image","stock_uom"],filters={"variant_of":item,"is_sales_item":1})
 	if len(list_item)>0:
 		result=[]
 		today = frappe.utils.today()
 		for row in list_item:
+			row.attributes=frappe.get_all("Item Variant Attribute",fields=["attribute","attribute_value"],filters={"parent":row.item_code})
 			result.append(master_get_item_details(
 				warehouse = warehouse,
 				customer = customer,
 				transaction_date = today,
 				doc_item = row))
+		return result
 	else:
 		return {"Error":"Variant Not Found"}
 
@@ -53,7 +56,7 @@ def get_item_variant(item,customer,warehouse):
 def get_pos_profile(user):
 	profile=frappe.db.sql("""select parent from `tabPOS Profile User` where `default`=1 and user="{}" """.format(user),as_list=1)
 	if len(profile)>0:
-		return frappe.get_doc("POS Profile",profile[0][0]).as_json()
+		return frappe.get_doc("POS Profile",profile[0][0])
 	else:
 		return {"Error":"Default Profile Not Found"}
 
@@ -81,12 +84,12 @@ def master_get_item_details(warehouse,customer, transaction_date,doc_item):
 			where i.variant_of="{}" and i.disabled=0
 			order by ip.price_list_rate asc
 			limit 0,1
-			""".format(price_list,item),as_list=True)
+			""".format(price_list,doc_item.item_code),as_list=True)
 		if len(list_item)==0:
-			return {"item_detail" : doc_item.as_dict()}
+			return {"item_detail" : doc_item}
 		docsargs["item_code"] = list_item[0][0]
 	doc_item.price_detail = get_item_details(docsargs)
-	return {"item_detail":doc_item.as_json()}
+	return {"item_detail":doc_item}
 
 def get_default_company():
 	default_company = frappe.get_value("Global Defaults","Global Defaults","default_company")
