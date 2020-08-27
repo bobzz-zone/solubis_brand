@@ -61,6 +61,7 @@ def get_pos_profile(user):
 		return {"Error":"Default Profile Not Found"}
 @frappe.whitelist()
 def get_customer(keyword):
+	keyword="%{}%".format(keyword)
 	return frappe.db.sql("""select name , customer_group , territory , customer_name , mobile_no , primary_address from `tabCustomer` where customer_name like "{0}" or name like "{0}" or mobile_no like "{0}" or primary_address like "{0}" """.format(keyword), as_dict=1)
 def master_get_item_details(warehouse,customer, transaction_date,doc_item):
 	warehouse = get_default_warehouse(warehouse)
