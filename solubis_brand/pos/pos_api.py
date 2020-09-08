@@ -63,7 +63,7 @@ def get_pos_profile(user):
 def get_customer(keyword):
 	keyword="%{}%".format(keyword)
 	company = frappe.get_doc("Company",get_default_company())
-	return frappe.db.sql("""select name , customer_group , territory , customer_name , mobile_no , primary_address ,email_id, "{1}" as default_piutang from `tabCustomer` where customer_name like "{0}" or name like "{0}" or mobile_no like "{0}" or primary_address like "{0}" """.format(keyword,company.default_receivable_account), as_dict=1)
+	return frappe.db.sql("""select c.name , c.customer_group , c.territory , c.customer_name , c.mobile_no , c.primary_address ,c.email_id, IFNULL(d.account,"{2}") as default_piutang from `tabCustomer` c left join `tabParty Account` d on d.parent=c.name and d.company="{1}" where c.customer_name like "{0}" or c.name like "{0}" or c.mobile_no like "{0}" or c.primary_address like "{0}" """.format(keyword,company.name,company.default_receivable_account), as_dict=1)
 def master_get_item_details(warehouse,customer, transaction_date,doc_item):
 	warehouse = get_default_warehouse(warehouse)
 	price_list = get_default_price_list(customer)
