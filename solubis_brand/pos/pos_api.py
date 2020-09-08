@@ -115,7 +115,7 @@ def get_default_price_list( customer=""):
 	if customer and customer!="":
 		customer = frappe.get_all("Customer", fields= "*", filters=[["name","=",customer]])
 		if len(customer) > 0:
-			if customer[0]["default_price_list"]:
+			if customer[0]["default_price_list"] and customer[0]["default_price_list"]!="":
 				return customer[0]["default_price_list"] 
 	
 	return default_price_list
