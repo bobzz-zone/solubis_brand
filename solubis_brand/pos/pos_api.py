@@ -29,6 +29,27 @@ def get_item_list(customer="Karya Jaya, CV.",warehouse="Stores - T",keyword="%",
 	else:
 		return {"Error":"No Item Found"}
 @frappe.whitelist()
+def get_item_price(customer="Karya Jaya, CV.",warehouse="Stores - T",item_code="",qty=1):
+	warehouse = get_default_warehouse(warehouse)
+	price_list = get_default_price_list(customer)
+	company = get_default_company()
+
+	docsargs = {
+		"item_code": item_code,
+		"warehouse": warehouse,
+		"customer": customer,
+		"currency": "IDR",
+		"price_list": price_list,
+		"price_list_currency": "IDR",
+		"plc_conversion_rate": 1,
+		"company": company,
+		"transaction_date": transaction_date,
+		"ignore_pricing_rule": 0,
+		"qty":qty,
+		"doctype": "Sales Invoice"
+	}
+	return get_item_details(docsargs)
+@frappe.whitelist()
 def get_item_by_barcode(barcode,customer,warehouse):
 	pass
 @frappe.whitelist()
