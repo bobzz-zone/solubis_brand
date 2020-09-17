@@ -43,7 +43,7 @@ def get_item_price(customer="Karya Jaya, CV.",warehouse="Stores - T",item_code="
 		"price_list_currency": "IDR",
 		"plc_conversion_rate": 1,
 		"company": company,
-		"transaction_date": transaction_date,
+		"transaction_date": frappe.utils.today(),
 		"ignore_pricing_rule": 0,
 		"qty":qty,
 		"doctype": "Sales Invoice"
