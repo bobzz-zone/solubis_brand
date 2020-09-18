@@ -37,6 +37,7 @@ def apply_pl(customer,customer_group,territory,currency,price_list,campaign,item
 	item_final = []
 	if isinstance(item_list, string_types):
 		item_list = json.loads(item_list)
+	return item_list
 	for d in item_list:
 		temp ={
 			"item_code": d.item_code,
