@@ -3,6 +3,7 @@ from frappe.model.document import Document
 from frappe import _
 import json
 import frappe
+from six import string_types
 from erpnext.stock.get_item_details import get_item_details
 from erpnext.accounts.doctype.pricing_rule.pricing_rule import apply_pricing_rule
 from frappe.utils import cint, flt
@@ -34,8 +35,9 @@ def apply_pl(customer,customer_group,territory,currency,price_list,campaign,item
 	price_list = get_default_price_list(customer)
 	company = get_default_company()
 	item_final = []
+	if isinstance(item_list, string_types):
+		item_list = json.loads(item_list)
 	for d in item_list:
-		
 		temp ={
 			"item_code": d.item_code,
 			"item_group": d.item_group,
