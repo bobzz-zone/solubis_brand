@@ -31,7 +31,6 @@ def get_item_list(customer="Karya Jaya, CV.",warehouse="Stores - T",keyword="%",
 		return {"Error":"No Item Found"}
 @frappe.whitelist()
 def apply_pl(customer,customer_group,territory,currency,price_list,campaign,item_list):
-	warehouse = get_default_warehouse(warehouse)
 	price_list = get_default_price_list(customer)
 	company = get_default_company()
 	item_final = []
