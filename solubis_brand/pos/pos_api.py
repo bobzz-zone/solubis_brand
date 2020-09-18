@@ -4,6 +4,7 @@ from frappe import _
 import json
 import frappe
 from erpnext.stock.get_item_details import get_item_details
+from erpnext.accounts.doctype.pricing_rule.pricing_rule import apply_pricing_rule
 from frappe.utils import cint, flt
 class pos_api(Document):
 	pass
@@ -28,6 +29,52 @@ def get_item_list(customer="Karya Jaya, CV.",warehouse="Stores - T",keyword="%",
 		return result
 	else:
 		return {"Error":"No Item Found"}
+@frappe.whitelist()
+def apply_pl(customer,customer_group,territory,currency,price_list,campaign,item_list):
+	warehouse = get_default_warehouse(warehouse)
+	price_list = get_default_price_list(customer)
+	company = get_default_company()
+	item_final = []
+	for d in item_list:
+		temp ={
+			"item_code": d.item_code,
+			"item_group": d.item_group,
+			"brand": d.brand,
+			"qty": d.qty,
+			"stock_qty": d.stock_qty,
+			"uom": d.uom,
+			"stock_uom": d.stock_uom,
+			"pricing_rules": d.pricing_rules,
+			"warehouse": get_default_warehouse(d.warehouse),
+			"serial_no": "",
+			"price_list_rate": d.price_list_rate,
+			"conversion_factor": 1.0
+		}
+		item_final.append(temp);
+	args = {
+		"customer": customer,
+		"items":item_final,
+		"customer_group": customer_group,
+		"territory": territory,
+		"currency": currency,
+		"conversion_rate": 1,
+		"price_list": price_list,
+		"price_list_currency": currency,
+		"plc_conversion_rate": 1,
+		"company": company,
+		"transaction_date": frappe.utils.today(),
+		"campaign": campaign,
+		"sales_partner": "",
+		"ignore_pricing_rule": 0,
+		"doctype": "Sales Invoice",
+		"name": "",
+		"is_return": 0,
+		"update_stock": 0,
+		"conversion_factor": 1,
+		"pos_profile": "",
+		"coupon_code": ""
+	}
+	return apply_pricing_rule(args)
 @frappe.whitelist()
 def get_item_price(customer="Karya Jaya, CV.",warehouse="Stores - T",item_code="",qty=1):
 	warehouse = get_default_warehouse(warehouse)
