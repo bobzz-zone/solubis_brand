@@ -37,20 +37,19 @@ def apply_pl(customer,customer_group,territory,currency,price_list,campaign,item
 	item_final = []
 	if isinstance(item_list, string_types):
 		item_list = json.loads(item_list)
-	return item_list
 	for d in item_list:
 		temp ={
-			"item_code": d.item_code,
-			"item_group": d.item_group,
-			"brand": d.brand,
-			"qty": d.qty,
-			"stock_qty": d.qty,
-			"uom": d.uom,
-			"stock_uom": d.uom,
-			"pricing_rules": d.pricing_rules,
-			"warehouse": get_default_warehouse(d.warehouse),
+			"item_code": d.get("item_code"),
+			"item_group": d.get("item_group"),
+			"brand": d.get("brand"),
+			"qty": d.get("qty"),
+			"stock_qty": d.get("qty"),
+			"uom": d.get("uom"),
+			"stock_uom": d.get("uom"),
+			"pricing_rules": d.get("pricing_rules"),
+			"warehouse": get_default_warehouse(d.get("warehouse")),
 			"serial_no": "",
-			"price_list_rate": d.price_list_rate,
+			"price_list_rate": d.get("price_list_rate"),
 			"conversion_factor": 1.0
 		}
 		item_final.append(temp);
