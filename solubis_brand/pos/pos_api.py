@@ -73,8 +73,7 @@ def apply_pl(customer,customer_group,territory,currency,price_list,campaign,item
 		"is_return": 0,
 		"update_stock": 0,
 		"conversion_factor": 1,
-		"pos_profile": "",
-		"coupon_code": ""
+		"pos_profile": ""
 	}
 	return apply_pricing_rule(args)
 @frappe.whitelist()
