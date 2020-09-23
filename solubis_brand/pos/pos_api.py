@@ -123,7 +123,13 @@ def get_item_variant(item,customer,warehouse):
 
 @frappe.whitelist()
 def get_pos_profile(user):
-	profile=frappe.db.sql("""select parent from `tabPOS Profile User` where `default`=1 and user="{}" """.format(user),as_list=1)
+	temp=frappe.db.sql("""select name from `tabUser` where username="{}" or name="{}" """.format(user,user),as_list=1)
+	user_id=""
+	if not temp[0]:
+		return {"Error":"User Not Found"}
+	else:
+		user_id=temp[0][0]
+	profile=frappe.db.sql("""select parent from `tabPOS Profile User` where `default`=1 and user="{}" """.format(user_id),as_list=1)
 	if len(profile)>0:
 		return frappe.get_doc("POS Profile",profile[0][0])
 	else:
