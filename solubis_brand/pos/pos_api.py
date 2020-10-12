@@ -98,8 +98,8 @@ def get_item_price(customer="Karya Jaya, CV.",warehouse="Stores - T",item_code="
 	}
 	return get_item_details(docsargs)
 @frappe.whitelist()
-def get_item_by_barcode(barcode,customer,warehouse):
-	pass
+def get_item_by_barcode():
+	return frappe.db.sql("select parent as 'item_code',barcode ,barcode_type from `tabItem Barcode`",as_dict=1)
 @frappe.whitelist()
 def test():
 	print("test")
