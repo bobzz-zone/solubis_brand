@@ -3,6 +3,6 @@
         "public/css/custom.css"
     ],
     "js/styling.min.js": [
-        "public/js/conf.js"
+        "public/js/custom.js"
     ]
 }

@@ -17,8 +17,8 @@ website_context = {
 }
 # Includes in <head>
 # ------------------
-app_include_css = "assets/css/styling.min.css"
-app_include_js = "assets/js/styling.min.js"
+app_include_css = "/assets/css/styling.min.css"
+app_include_js = "/assets/js/styling.min.js"
 # include js, css files in header of desk.html
 # app_include_css = "/assets/solubis_brand/css/solubis_brand.css"
 # app_include_js = "/assets/solubis_brand/js/solubis_brand.js"
@@ -26,7 +26,7 @@ app_include_js = "assets/js/styling.min.js"
 # include js, css files in header of web template
 # web_include_css = "/assets/solubis_brand/css/solubis_brand.css"
 # web_include_js = "/assets/solubis_brand/js/solubis_brand.js"
-setup_wizard_requires = "assets/solubis_brand/js/setup_wizard.js"
+#setup_wizard_requires = "assets/solubis_brand/js/setup_wizard.js"
 #setup_wizard_stages = "solubis_brand.setup_wizard.get_setup_stages"
 # include js in page
 # page_js = {"page" : "public/js/file.js"}
@@ -61,8 +61,8 @@ setup_wizard_requires = "assets/solubis_brand/js/setup_wizard.js"
 # ------------
 
 # before_install = "solubis_brand.install.before_install"
-after_install = "solubis_brand.custom_function.after_install"
-on_login="solubis_brand.custom_function.login_block"
+#after_install = "solubis_brand.custom_function.after_install"
+#on_login="solubis_brand.custom_function.login_block"
 # Desk Notifications
 # ------------------
 # See frappe.core.notifications.get_notification_config
@@ -86,11 +86,11 @@ on_login="solubis_brand.custom_function.login_block"
 # Hook on document methods and events
 
 doc_events = {
-	"User": {
-		"validate": "solubis_brand.custom_function.validate_user_quota",
-		"before_insert": "solubis_brand.custom_function.set_block_module"
+#	"User": {
+#		"validate": "solubis_brand.custom_function.validate_user_quota",
+#		"before_insert": "solubis_brand.custom_function.set_block_module"
 		# "on_submit" : my_account.doctype.sync_server_settings.create_new_user
-	}
+#	}
 }
 
 # on_session_creation =[

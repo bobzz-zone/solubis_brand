@@ -10,15 +10,15 @@ import json
 
 def after_install():
 	subdomain = frappe.local.site.split(".")[0]
-	url = "https://reg.solubis.id/api/method/my_account.my_account.doctype.custom_method.get_site_data?subdomain={}".format(subdomain)
-	raw = requests.get(url).json()
-	data = raw['message']
+#	url = "https://reg.solubis.id/api/method/my_account.my_account.doctype.custom_method.get_site_data?subdomain={}".format(subdomain)
+#	raw = requests.get(url).json()
+#	data = raw['message']
 	import_fixtures()
 	disable_signup_website()
-	disable_other_roles(data['active_plan'])
-	create_user_baru(data['fullname'], data['user'], data['password'],data['active_plan'])
+#	disable_other_roles(data['active_plan'])
+#	create_user_baru(data['fullname'], data['user'], data['password'],data['active_plan'])
 	frappe.db.commit()
-	requests.get("https://reg.solubis.id/api/method/my_account.custom_dns_api.send_mail_site_created?subdomuser={}&fullname={}&newsitename={}".format(data['user'],data['fullname'],frappe.local.site))
+#	requests.get("https://reg.solubis.id/api/method/my_account.custom_dns_api.send_mail_site_created?subdomuser={}&fullname={}&newsitename={}".format(data['user'],data['fullname'],frappe.local.site))
 
 
 @frappe.whitelist()
@@ -84,7 +84,7 @@ def create_user_baru(fullname_user, email, password,plan):
 		],
 		"roles" : [
 			{"role" : "System Manager"},
-			{"role" : plan},
+			#{"role" : plan},
 			# {"role" : "Accounts Manager"},
 			# {"role" : "Accounts User"},
 			# {"role" : "HR Manager"},

@@ -1,13 +1,14 @@
 //$(document).bind('toolbar_setup', function() {
 //	$('.navbar-home').html('<img class="erpnext-icon" src="'+
-//			frappe.urllib.get_base_url()+'/assets/styling/images/logo.jpg" />');
+//			frappe.urllib.get_base_url()+'/assets/solubis_brand/images/logo_icon.png" />');
 //});
 $(document).bind('toolbar_setup', function() {
 	frappe.app.name = "Solubis";
 
 	frappe.help_feedback_link = '<p><a class="text-muted" \
 		href="solubis.id">Visit Us</a></p>'
-
+	$('.navbar-home').html('<img class="erpnext-icon" src="'+
+                      frappe.urllib.get_base_url()+'/assets/solubis_brand/images/logo_icon.png" />');
 
 	//$('[data-link="docs"]').attr("href", "https://erpnext.com/docs")
 	//$('[data-link="issues"]').attr("href", "https://github.com/frappe/erpnext/issues")
